@@ -23,6 +23,17 @@ migrate_working_dir/
 # is commented out by default.
 #.vscode/
 
+# AI and Claude related files
+.claude/
+.cursor/
+.aider/
+.github/copilot/
+.ai/
+.claude.md
+CLAUDE.md
+.cursorrules
+.cursorignore
+
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
