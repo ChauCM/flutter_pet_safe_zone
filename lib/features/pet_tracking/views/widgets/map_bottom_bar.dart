@@ -7,10 +7,7 @@ import '../../blocs/pet_tracking_cubit/pet_tracking_cubit.dart';
 class MapBottomBar extends StatelessWidget {
   final AnimatedMapController animatedMapController;
 
-  const MapBottomBar({
-    super.key,
-    required this.animatedMapController,
-  });
+  const MapBottomBar({super.key, required this.animatedMapController});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +35,10 @@ class MapBottomBar extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: () {
                 context.read<PetTrackingCubit>().restart();
+                animatedMapController.animateTo(
+                  dest: PetTrackingCubit.homeLocation,
+                  zoom: 17.0,
+                );
               },
               icon: const Icon(Icons.refresh),
               label: const Text('Restart'),

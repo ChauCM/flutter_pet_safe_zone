@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../features/common/blocs/theme_cubit/theme_cubit.dart';
 import '../../blocs/pet_tracking_cubit/pet_tracking_cubit.dart';
 import '../../blocs/pet_tracking_cubit/pet_tracking_state.dart';
 
@@ -16,46 +17,45 @@ class MapControlButtons extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ElevatedButton.icon(
-            onPressed: () {},
-            icon: const Icon(Icons.contrast),
-            label: const Text('High Contrast'),
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
-            ),
+          BlocBuilder<ThemeCubit, ThemeState>(
+            builder: (context, themeState) {
+              final theme = themeState.themeConfig;
+              return ElevatedButton.icon(
+                onPressed: () {
+                  context.read<ThemeCubit>().toggleHighContrast();
+                },
+                icon: const Icon(Icons.contrast),
+                label: const Text('High Contrast'),
+                style: themeState.isHighContrast
+                    ? ElevatedButton.styleFrom(
+                        backgroundColor: theme.activeButtonBackgroundColor,
+                        foregroundColor: theme.activeButtonForegroundColor,
+                        side: theme.buttonBorderSide,
+                      )
+                    : null,
+              );
+            },
           ),
           const SizedBox(width: 8),
           BlocBuilder<PetTrackingCubit, PetTrackingState>(
             builder: (context, state) {
+              final theme = context.watch<ThemeCubit>().state.themeConfig;
               return ElevatedButton.icon(
                 onPressed: () {
                   context.read<PetTrackingCubit>().toggleAnnounce();
                 },
                 icon: Icon(
                   state.isAnnounceEnabled ? Icons.volume_up : Icons.volume_off,
-                  color: state.isAnnounceEnabled ? Colors.white : null,
                 ),
                 label: Text(
                   state.isAnnounceEnabled ? 'Announce On' : 'Announce Off',
-                  style: TextStyle(
-                    color: state.isAnnounceEnabled ? Colors.white : null,
-                  ),
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: state.isAnnounceEnabled
-                      ? Colors.green
-                      : null,
-                  foregroundColor: state.isAnnounceEnabled
-                      ? Colors.white
-                      : null,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                ),
+                style: state.isAnnounceEnabled
+                    ? ElevatedButton.styleFrom(
+                        backgroundColor: theme.activeButtonBackgroundColor,
+                        foregroundColor: theme.activeButtonForegroundColor,
+                      )
+                    : null,
               );
             },
           ),
@@ -64,12 +64,6 @@ class MapControlButtons extends StatelessWidget {
             onPressed: () {},
             icon: const Icon(Icons.help_outline),
             label: const Text('Help'),
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
-            ),
           ),
         ],
       ),

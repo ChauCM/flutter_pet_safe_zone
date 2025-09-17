@@ -4,6 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
+import '../../../common/blocs/theme_cubit/theme_cubit.dart';
 import '../../blocs/pet_tracking_cubit/pet_tracking_cubit.dart';
 import '../../blocs/pet_tracking_cubit/pet_tracking_state.dart';
 import '../widgets/cat_marker_widget.dart';
@@ -100,6 +101,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
         ],
         child: BlocBuilder<PetTrackingCubit, PetTrackingState>(
           builder: (context, state) {
+            final theme = context.watch<ThemeCubit>().state.themeConfig;
             final homeLocation = PetTrackingCubit.homeLocation;
             final safeZoneRadius = PetTrackingCubit.safeZoneRadius;
 
@@ -125,8 +127,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                     ),
                     children: [
                       TileLayer(
-                        urlTemplate:
-                            'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+                        urlTemplate: theme.mapTileUrl,
                         subdomains: const ['a', 'b', 'c', 'd'],
                         userAgentPackageName: 'com.chauapps.petsafezone',
                       ),
@@ -137,12 +138,12 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                             radius: safeZoneRadius,
                             useRadiusInMeter: true,
                             color: state.petLocation.isInsideSafeZone
-                                ? Colors.green.withValues(alpha: 0.15)
-                                : Colors.red.withValues(alpha: 0.15),
+                                ? theme.safeZoneFillColor
+                                : theme.dangerZoneFillColor,
                             borderColor: state.petLocation.isInsideSafeZone
-                                ? Colors.green
-                                : Colors.red,
-                            borderStrokeWidth: 2,
+                                ? theme.safeZoneBorderColor
+                                : theme.dangerZoneBorderColor,
+                            borderStrokeWidth: theme.zoneBorderWidth,
                           ),
                         ],
                       ),
@@ -156,8 +157,8 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                             child: CatMarkerWidget(
                               imagePath: 'assets/images/tim.jpeg',
                               markerColor: state.petLocation.isInsideSafeZone
-                                  ? Colors.blue
-                                  : Colors.orange,
+                                  ? theme.petMarkerColorSafe
+                                  : theme.petMarkerColorDanger,
                               width: 100,
                               height: 100,
                             ),
@@ -178,16 +179,17 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                     ),
                     decoration: BoxDecoration(
                       color: state.petLocation.isInsideSafeZone
-                          ? Colors.green
-                          : Colors.orange,
+                          ? theme.distanceIndicatorColorSafe
+                          : theme.distanceIndicatorColorDanger,
                       borderRadius: BorderRadius.circular(20),
+                      border: theme.distanceIndicatorBorder,
                     ),
                     child: Text(
                       'Tim is ${state.petLocation.distanceFromHome.toInt()}m from home',
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: theme.distanceIndicatorTextColor,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: theme.distanceIndicatorFontSize,
                       ),
                     ),
                   ),

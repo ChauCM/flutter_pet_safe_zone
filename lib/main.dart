@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_pet_safe_zone/features/common/blocs/theme_cubit/theme_cubit.dart';
 import 'package:flutter_pet_safe_zone/features/pet_tracking/blocs/pet_tracking_cubit/pet_tracking_cubit.dart';
 import 'package:flutter_pet_safe_zone/features/pet_tracking/views/pages/map_page.dart';
 
@@ -14,15 +15,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PetTrackingCubit(),
-      child: MaterialApp(
-        title: 'Pet Safe Zone',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          useMaterial3: true,
-        ),
-        home: const MapPage(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => PetTrackingCubit()),
+      ],
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, themeState) {
+          return MaterialApp(
+            title: 'Pet Safe Zone',
+            theme: themeState.themeConfig.materialTheme,
+            home: const MapPage(),
+          );
+        },
       ),
     );
   }

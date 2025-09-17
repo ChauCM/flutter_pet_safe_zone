@@ -7,6 +7,6 @@ part 'pet_tracking_state.freezed.dart';
 sealed class PetTrackingState with _$PetTrackingState {
   const factory PetTrackingState({
     required PetLocationDpo petLocation,
-    @Default(true) bool isAnnounceEnabled,
+    @Default(false) bool isAnnounceEnabled,
   }) = _PetTrackingState;
 }

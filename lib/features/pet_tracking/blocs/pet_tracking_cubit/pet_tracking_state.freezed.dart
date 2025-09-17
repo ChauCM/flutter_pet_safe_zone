@@ -210,7 +210,7 @@ return $default(_that.petLocation,_that.isAnnounceEnabled);case _:
 
 
 class _PetTrackingState implements PetTrackingState {
-  const _PetTrackingState({required this.petLocation, this.isAnnounceEnabled = true});
+  const _PetTrackingState({required this.petLocation, this.isAnnounceEnabled = false});
   
 
 @override final  PetLocationDpo petLocation;
