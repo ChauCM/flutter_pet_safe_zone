@@ -6,6 +6,7 @@ class CatMarkerWidget extends StatelessWidget {
   final double height;
   final String imagePath;
   final Color markerColor;
+  final bool isInsideSafeZone;
 
   const CatMarkerWidget({
     super.key,
@@ -13,17 +14,20 @@ class CatMarkerWidget extends StatelessWidget {
     this.height = 80,
     required this.imagePath,
     this.markerColor = Colors.blue,
+    this.isInsideSafeZone = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      key: Key('cat_marker_widget $imagePath'),
-      width: width,
-      height: height,
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: [
+    return Semantics(
+      label: 'Tim the cat, currently ${isInsideSafeZone ? "safely inside" : "outside"} the safe zone',
+      child: SizedBox(
+        key: Key('cat_marker_widget $imagePath'),
+        width: width,
+        height: height,
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
           Container(
             width: width * 0.8,
             height: width * 0.8,
@@ -44,6 +48,7 @@ class CatMarkerWidget extends StatelessWidget {
             colorFilter: ColorFilter.mode(markerColor, BlendMode.srcIn),
           ),
         ],
+        ),
       ),
     );
   }

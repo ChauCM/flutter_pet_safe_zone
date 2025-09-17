@@ -13,12 +13,14 @@ class MapBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ElevatedButton.icon(
+      height: 82,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Semantics(
+            button: true,
+            label: 'Center map on Tim\'s current location',
+            child: ElevatedButton.icon(
               onPressed: () {
                 final currentLocation = context
                     .read<PetTrackingCubit>()
@@ -33,7 +35,11 @@ class MapBottomBar extends StatelessWidget {
               icon: const Icon(Icons.pets),
               label: const Text('Tim Location'),
             ),
-            ElevatedButton.icon(
+          ),
+          Semantics(
+            button: true,
+            label: 'Restart tracking and center map on home location',
+            child: ElevatedButton.icon(
               onPressed: () {
                 context.read<PetTrackingCubit>().restart();
                 animatedMapController.animateTo(
@@ -44,15 +50,19 @@ class MapBottomBar extends StatelessWidget {
               icon: const Icon(Icons.refresh),
               label: const Text('Restart'),
             ),
-            ElevatedButton.icon(
+          ),
+          Semantics(
+            button: true,
+            label: 'Show keyboard shortcuts guide',
+            child: ElevatedButton.icon(
               onPressed: () {
                 KeyboardGuideDialog.show(context);
               },
               icon: const Icon(Icons.keyboard),
               label: const Text('Keyboard Guide'),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

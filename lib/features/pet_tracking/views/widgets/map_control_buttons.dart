@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../features/common/blocs/theme_cubit/theme_cubit.dart';
+import '../../../common/widgets/styled_snackbar.dart';
 import '../../blocs/pet_tracking_cubit/pet_tracking_cubit.dart';
 import '../../blocs/pet_tracking_cubit/pet_tracking_state.dart';
 import 'keyboard_guide_dialog.dart';
@@ -21,19 +22,34 @@ class MapControlButtons extends StatelessWidget {
           BlocBuilder<ThemeCubit, ThemeState>(
             builder: (context, themeState) {
               final theme = themeState.themeConfig;
-              return ElevatedButton.icon(
-                onPressed: () {
-                  context.read<ThemeCubit>().toggleHighContrast();
-                },
-                icon: const Icon(Icons.contrast),
-                label: const Text('High Contrast'),
-                style: themeState.isHighContrast
-                    ? ElevatedButton.styleFrom(
-                        backgroundColor: theme.activeButtonBackgroundColor,
-                        foregroundColor: theme.activeButtonForegroundColor,
-                        side: theme.buttonBorderSide,
-                      )
-                    : null,
+              return Semantics(
+                button: true,
+                label:
+                    'Toggle high contrast mode. Currently ${themeState.isHighContrast ? "enabled" : "disabled"}',
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    context.read<ThemeCubit>().toggleHighContrast();
+                    final isHighContrast = context
+                        .read<ThemeCubit>()
+                        .state
+                        .isHighContrast;
+                    StyledSnackBar.show(
+                      context: context,
+                      message:
+                          'High contrast ${isHighContrast ? "enabled" : "disabled"}',
+                      icon: Icons.contrast,
+                    );
+                  },
+                  icon: const Icon(Icons.contrast),
+                  label: const Text('High Contrast'),
+                  style: themeState.isHighContrast
+                      ? ElevatedButton.styleFrom(
+                          backgroundColor: theme.activeButtonBackgroundColor,
+                          foregroundColor: theme.activeButtonForegroundColor,
+                          side: theme.buttonBorderSide,
+                        )
+                      : null,
+                ),
               );
             },
           ),
@@ -41,32 +57,53 @@ class MapControlButtons extends StatelessWidget {
           BlocBuilder<PetTrackingCubit, PetTrackingState>(
             builder: (context, state) {
               final theme = context.watch<ThemeCubit>().state.themeConfig;
-              return ElevatedButton.icon(
-                onPressed: () {
-                  context.read<PetTrackingCubit>().toggleAnnounce();
-                },
-                icon: Icon(
-                  state.isAnnounceEnabled ? Icons.volume_up : Icons.volume_off,
+              return Semantics(
+                button: true,
+                label:
+                    'Toggle voice announcements. Currently ${state.isAnnounceEnabled ? "enabled" : "disabled"}',
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    context.read<PetTrackingCubit>().toggleAnnounce();
+                    final isEnabled = context
+                        .read<PetTrackingCubit>()
+                        .state
+                        .isAnnounceEnabled;
+                    StyledSnackBar.show(
+                      context: context,
+                      message:
+                          'Voice announcements ${isEnabled ? "enabled" : "disabled"}',
+                      icon: isEnabled ? Icons.volume_up : Icons.volume_off,
+                    );
+                  },
+                  icon: Icon(
+                    state.isAnnounceEnabled
+                        ? Icons.volume_up
+                        : Icons.volume_off,
+                  ),
+                  label: Text(
+                    state.isAnnounceEnabled ? 'Announce On' : 'Announce Off',
+                  ),
+                  style: state.isAnnounceEnabled
+                      ? ElevatedButton.styleFrom(
+                          backgroundColor: theme.activeButtonBackgroundColor,
+                          foregroundColor: theme.activeButtonForegroundColor,
+                        )
+                      : null,
                 ),
-                label: Text(
-                  state.isAnnounceEnabled ? 'Announce On' : 'Announce Off',
-                ),
-                style: state.isAnnounceEnabled
-                    ? ElevatedButton.styleFrom(
-                        backgroundColor: theme.activeButtonBackgroundColor,
-                        foregroundColor: theme.activeButtonForegroundColor,
-                      )
-                    : null,
               );
             },
           ),
           const SizedBox(width: 8),
-          ElevatedButton.icon(
-            onPressed: () {
-              KeyboardGuideDialog.show(context);
-            },
-            icon: const Icon(Icons.help_outline),
-            label: const Text('Help'),
+          Semantics(
+            button: true,
+            label: 'Show keyboard shortcuts help dialog',
+            child: ElevatedButton.icon(
+              onPressed: () {
+                KeyboardGuideDialog.show(context);
+              },
+              icon: const Icon(Icons.help_outline),
+              label: const Text('Help'),
+            ),
           ),
         ],
       ),
