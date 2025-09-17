@@ -1,11 +1,11 @@
 {
-    "name": "flutter_pet_safe_zone",
-    "short_name": "flutter_pet_safe_zone",
+    "name": "Pet Safe Zone",
+    "short_name": "Pet Safe Zone",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Track and monitor your pet's location with geofencing technology",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
