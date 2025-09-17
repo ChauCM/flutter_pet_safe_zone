@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 
 import '../../blocs/pet_tracking_cubit/pet_tracking_cubit.dart';
+import 'keyboard_guide_dialog.dart';
 
 class MapBottomBar extends StatelessWidget {
   final AnimatedMapController animatedMapController;
@@ -44,7 +45,9 @@ class MapBottomBar extends StatelessWidget {
               label: const Text('Restart'),
             ),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                KeyboardGuideDialog.show(context);
+              },
               icon: const Icon(Icons.keyboard),
               label: const Text('Keyboard Guide'),
             ),

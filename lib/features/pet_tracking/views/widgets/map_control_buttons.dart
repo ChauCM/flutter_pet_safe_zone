@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../features/common/blocs/theme_cubit/theme_cubit.dart';
 import '../../blocs/pet_tracking_cubit/pet_tracking_cubit.dart';
 import '../../blocs/pet_tracking_cubit/pet_tracking_state.dart';
+import 'keyboard_guide_dialog.dart';
 
 class MapControlButtons extends StatelessWidget {
   const MapControlButtons({super.key});
@@ -61,7 +62,9 @@ class MapControlButtons extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              KeyboardGuideDialog.show(context);
+            },
             icon: const Icon(Icons.help_outline),
             label: const Text('Help'),
           ),

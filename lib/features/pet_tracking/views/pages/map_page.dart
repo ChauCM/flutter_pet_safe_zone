@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
@@ -8,6 +9,7 @@ import '../../../common/blocs/theme_cubit/theme_cubit.dart';
 import '../../blocs/pet_tracking_cubit/pet_tracking_cubit.dart';
 import '../../blocs/pet_tracking_cubit/pet_tracking_state.dart';
 import '../widgets/cat_marker_widget.dart';
+import '../widgets/keyboard_guide_dialog.dart';
 import '../widgets/map_bottom_bar.dart';
 import '../widgets/map_control_buttons.dart';
 
@@ -23,6 +25,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   late final FlutterTts _flutterTts;
   DateTime _lastSemanticUpdate = DateTime.now();
   String _semanticLabel = '';
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -45,12 +48,46 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   void dispose() {
     _animatedMapController.dispose();
     _flutterTts.stop();
+    _focusNode.dispose();
     super.dispose();
+  }
+
+  void _handleKeyEvent(KeyEvent event) {
+    if (event is! KeyDownEvent) return;
+
+    final key = event.logicalKey;
+    final petTrackingCubit = context.read<PetTrackingCubit>();
+    final themeCubit = context.read<ThemeCubit>();
+
+    if (key == LogicalKeyboardKey.keyH) {
+      themeCubit.toggleHighContrast();
+    } else if (key == LogicalKeyboardKey.keyA) {
+      petTrackingCubit.toggleAnnounce();
+    } else if (key == LogicalKeyboardKey.keyK) {
+      KeyboardGuideDialog.show(context);
+    } else if (key == LogicalKeyboardKey.keyR) {
+      petTrackingCubit.restart();
+      _animatedMapController.animateTo(
+        dest: PetTrackingCubit.homeLocation,
+        zoom: 17.0,
+      );
+    } else if (key == LogicalKeyboardKey.space) {
+      final currentLocation =
+          petTrackingCubit.state.petLocation.currentLocation;
+      _animatedMapController.animateTo(
+        dest: currentLocation,
+        zoom: 17.0,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return KeyboardListener(
+      focusNode: _focusNode,
+      onKeyEvent: _handleKeyEvent,
+      autofocus: true,
+      child: Scaffold(
       appBar: AppBar(
         title: const Text('🐾 Tim Safe Zone Tracker'),
         centerTitle: true,
@@ -203,6 +240,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
       ),
       bottomNavigationBar: MapBottomBar(
         animatedMapController: _animatedMapController,
+      ),
       ),
     );
   }
