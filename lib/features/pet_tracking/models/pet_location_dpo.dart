@@ -10,4 +10,9 @@ sealed class PetLocationDpo with _$PetLocationDpo {
     required bool isInsideSafeZone,
     required double distanceFromHome,
   }) = _PetLocationDpo;
+
+  const PetLocationDpo._();
+
+  // bucket the distance 50m from home
+  int get fiftyMBucket => (distanceFromHome ~/ 50) * 50;
 }

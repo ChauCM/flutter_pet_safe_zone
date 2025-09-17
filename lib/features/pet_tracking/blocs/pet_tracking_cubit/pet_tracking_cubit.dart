@@ -23,7 +23,7 @@ class PetTrackingCubit extends Cubit<PetTrackingState> {
 
   PetTrackingCubit()
     : super(
-        PetTrackingState(
+        const PetTrackingState(
           petLocation: PetLocationDpo(
             currentLocation: homeLocation,
             isInsideSafeZone: true,
@@ -57,7 +57,7 @@ class PetTrackingCubit extends Cubit<PetTrackingState> {
       final isInsideSafeZone = distanceFromHome <= safeZoneRadius;
 
       emit(
-        PetTrackingState(
+        state.copyWith(
           petLocation: PetLocationDpo(
             currentLocation: newLocation,
             isInsideSafeZone: isInsideSafeZone,
@@ -68,9 +68,17 @@ class PetTrackingCubit extends Cubit<PetTrackingState> {
     });
   }
 
+  void toggleAnnounce() {
+    emit(
+      state.copyWith(
+        isAnnounceEnabled: !state.isAnnounceEnabled,
+      ),
+    );
+  }
+
   void returnToHome() {
     emit(
-      PetTrackingState(
+      state.copyWith(
         petLocation: PetLocationDpo(
           currentLocation: homeLocation,
           isInsideSafeZone: true,
@@ -85,7 +93,7 @@ class PetTrackingCubit extends Cubit<PetTrackingState> {
     _direction = _random.nextDouble() * 2 * pi;
 
     emit(
-      PetTrackingState(
+      state.copyWith(
         petLocation: PetLocationDpo(
           currentLocation: homeLocation,
           isInsideSafeZone: true,

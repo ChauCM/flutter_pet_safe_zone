@@ -201,8 +201,8 @@ return $default(_that.currentLocation,_that.isInsideSafeZone,_that.distanceFromH
 /// @nodoc
 
 
-class _PetLocationDpo implements PetLocationDpo {
-  const _PetLocationDpo({required this.currentLocation, required this.isInsideSafeZone, required this.distanceFromHome});
+class _PetLocationDpo extends PetLocationDpo {
+  const _PetLocationDpo({required this.currentLocation, required this.isInsideSafeZone, required this.distanceFromHome}): super._();
   
 
 @override final  LatLng currentLocation;

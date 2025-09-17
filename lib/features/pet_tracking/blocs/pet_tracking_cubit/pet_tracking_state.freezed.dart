@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PetTrackingState {
 
- PetLocationDpo get petLocation;
+ PetLocationDpo get petLocation; bool get isAnnounceEnabled;
 /// Create a copy of PetTrackingState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $PetTrackingStateCopyWith<PetTrackingState> get copyWith => _$PetTrackingStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PetTrackingState&&(identical(other.petLocation, petLocation) || other.petLocation == petLocation));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PetTrackingState&&(identical(other.petLocation, petLocation) || other.petLocation == petLocation)&&(identical(other.isAnnounceEnabled, isAnnounceEnabled) || other.isAnnounceEnabled == isAnnounceEnabled));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,petLocation);
+int get hashCode => Object.hash(runtimeType,petLocation,isAnnounceEnabled);
 
 @override
 String toString() {
-  return 'PetTrackingState(petLocation: $petLocation)';
+  return 'PetTrackingState(petLocation: $petLocation, isAnnounceEnabled: $isAnnounceEnabled)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $PetTrackingStateCopyWith<$Res>  {
   factory $PetTrackingStateCopyWith(PetTrackingState value, $Res Function(PetTrackingState) _then) = _$PetTrackingStateCopyWithImpl;
 @useResult
 $Res call({
- PetLocationDpo petLocation
+ PetLocationDpo petLocation, bool isAnnounceEnabled
 });
 
 
@@ -62,10 +62,11 @@ class _$PetTrackingStateCopyWithImpl<$Res>
 
 /// Create a copy of PetTrackingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? petLocation = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? petLocation = null,Object? isAnnounceEnabled = null,}) {
   return _then(_self.copyWith(
 petLocation: null == petLocation ? _self.petLocation : petLocation // ignore: cast_nullable_to_non_nullable
-as PetLocationDpo,
+as PetLocationDpo,isAnnounceEnabled: null == isAnnounceEnabled ? _self.isAnnounceEnabled : isAnnounceEnabled // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 /// Create a copy of PetTrackingState
@@ -156,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( PetLocationDpo petLocation)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( PetLocationDpo petLocation,  bool isAnnounceEnabled)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PetTrackingState() when $default != null:
-return $default(_that.petLocation);case _:
+return $default(_that.petLocation,_that.isAnnounceEnabled);case _:
   return orElse();
 
 }
@@ -177,10 +178,10 @@ return $default(_that.petLocation);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( PetLocationDpo petLocation)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( PetLocationDpo petLocation,  bool isAnnounceEnabled)  $default,) {final _that = this;
 switch (_that) {
 case _PetTrackingState():
-return $default(_that.petLocation);}
+return $default(_that.petLocation,_that.isAnnounceEnabled);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -194,10 +195,10 @@ return $default(_that.petLocation);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( PetLocationDpo petLocation)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( PetLocationDpo petLocation,  bool isAnnounceEnabled)?  $default,) {final _that = this;
 switch (_that) {
 case _PetTrackingState() when $default != null:
-return $default(_that.petLocation);case _:
+return $default(_that.petLocation,_that.isAnnounceEnabled);case _:
   return null;
 
 }
@@ -209,10 +210,11 @@ return $default(_that.petLocation);case _:
 
 
 class _PetTrackingState implements PetTrackingState {
-  const _PetTrackingState({required this.petLocation});
+  const _PetTrackingState({required this.petLocation, this.isAnnounceEnabled = true});
   
 
 @override final  PetLocationDpo petLocation;
+@override@JsonKey() final  bool isAnnounceEnabled;
 
 /// Create a copy of PetTrackingState
 /// with the given fields replaced by the non-null parameter values.
@@ -224,16 +226,16 @@ _$PetTrackingStateCopyWith<_PetTrackingState> get copyWith => __$PetTrackingStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PetTrackingState&&(identical(other.petLocation, petLocation) || other.petLocation == petLocation));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PetTrackingState&&(identical(other.petLocation, petLocation) || other.petLocation == petLocation)&&(identical(other.isAnnounceEnabled, isAnnounceEnabled) || other.isAnnounceEnabled == isAnnounceEnabled));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,petLocation);
+int get hashCode => Object.hash(runtimeType,petLocation,isAnnounceEnabled);
 
 @override
 String toString() {
-  return 'PetTrackingState(petLocation: $petLocation)';
+  return 'PetTrackingState(petLocation: $petLocation, isAnnounceEnabled: $isAnnounceEnabled)';
 }
 
 
@@ -244,7 +246,7 @@ abstract mixin class _$PetTrackingStateCopyWith<$Res> implements $PetTrackingSta
   factory _$PetTrackingStateCopyWith(_PetTrackingState value, $Res Function(_PetTrackingState) _then) = __$PetTrackingStateCopyWithImpl;
 @override @useResult
 $Res call({
- PetLocationDpo petLocation
+ PetLocationDpo petLocation, bool isAnnounceEnabled
 });
 
 
@@ -261,10 +263,11 @@ class __$PetTrackingStateCopyWithImpl<$Res>
 
 /// Create a copy of PetTrackingState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? petLocation = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? petLocation = null,Object? isAnnounceEnabled = null,}) {
   return _then(_PetTrackingState(
 petLocation: null == petLocation ? _self.petLocation : petLocation // ignore: cast_nullable_to_non_nullable
-as PetLocationDpo,
+as PetLocationDpo,isAnnounceEnabled: null == isAnnounceEnabled ? _self.isAnnounceEnabled : isAnnounceEnabled // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
