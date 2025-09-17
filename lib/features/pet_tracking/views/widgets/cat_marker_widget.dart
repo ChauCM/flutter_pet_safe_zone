@@ -18,6 +18,7 @@ class CatMarkerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      key: Key('cat_marker_widget $imagePath'),
       width: width,
       height: height,
       child: Stack(
