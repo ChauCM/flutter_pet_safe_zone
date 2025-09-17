@@ -1,13 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_animations/flutter_map_animations.dart';
 
 import '../../blocs/pet_tracking_cubit/pet_tracking_cubit.dart';
 import '../../blocs/pet_tracking_cubit/pet_tracking_state.dart';
 import '../widgets/cat_marker_widget.dart';
 
-class MapPage extends StatelessWidget {
+class MapPage extends StatefulWidget {
   const MapPage({super.key});
+
+  @override
+  State<MapPage> createState() => _MapPageState();
+}
+
+class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
+  late final AnimatedMapController _animatedMapController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animatedMapController = AnimatedMapController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _animatedMapController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +48,7 @@ class MapPage extends StatelessWidget {
           return Stack(
             children: [
               FlutterMap(
+                mapController: _animatedMapController.mapController,
                 options: MapOptions(
                   initialCenter: homeLocation,
                   initialZoom: 17.0,
@@ -71,8 +96,34 @@ class MapPage extends StatelessWidget {
                   ),
                 ],
               ),
+              // Distance indicator
               Positioned(
                 top: 16,
+                left: 16,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: state.petLocation.isInsideSafeZone
+                        ? Colors.green
+                        : Colors.orange,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    'Tim is ${state.petLocation.distanceFromHome.toInt()}m from home',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+              // Control buttons
+              Positioned(
+                top: 60,
                 left: 16,
                 right: 16,
                 child: Row(
@@ -127,8 +178,18 @@ class MapPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.home),
+                onPressed: () {
+                  final currentLocation = context
+                      .read<PetTrackingCubit>()
+                      .state
+                      .petLocation
+                      .currentLocation;
+                  _animatedMapController.animateTo(
+                    dest: currentLocation,
+                    zoom: 17.0,
+                  );
+                },
+                icon: const Icon(Icons.pets),
                 label: const Text('Tim Location'),
               ),
               ElevatedButton.icon(
