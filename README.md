@@ -1,16 +1,8 @@
-# flutter_pet_safe_zone
+# Pet Safe Zone
 
-A new Flutter project.
+This is a simple app that helps you keep track of your pets when you're out and about. You set up safe zones on a map (like your home, the park, or grandma's house), and then track where your cat or dog is with their GPS collar. The app lets you know if your pet wanders outside these safe areas, so you can relax knowing they're where they should be. It's basically like having a virtual fence for your furry friends, giving you peace of mind while they explore.
+BTW: my cat name is Tim.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Check it out at:
+- https://chauapps.com/pet-safe-zone/
+- https://pet-safe-zone.web.app
